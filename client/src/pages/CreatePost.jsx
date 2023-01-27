@@ -16,7 +16,7 @@ const CreatePost = () => {
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const generateImg = async () => {
+  const generateImage = async () => {
     if (form.prompt) {
       try {
         setGeneratingImg(true);
@@ -25,21 +25,22 @@ const CreatePost = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ prompt: form.prompt }),
-        })
+          body: JSON.stringify({
+            prompt: form.prompt,
+          }),
+        });
 
         const data = await response.json();
-
-        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` })
-      } catch (error) {
-        alert(error)
+        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
+      } catch (err) {
+        alert(err);
       } finally {
         setGeneratingImg(false);
       }
     } else {
-      alert('Please enter a prompt')
+      alert('Please provide proper prompt');
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -132,7 +133,7 @@ const CreatePost = () => {
         <div className='mt-5 flex gap-5'>
           <button
             type='button'
-            onClick={generateImg}
+            onClick={generateImage}
             className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
             {generatingImg ? 'Generating...' : 'Generate'}
